@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -7,17 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Flappy Bird</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="author" content="Otávio Fetter Ghesla">
+    <meta name="description" content="Jogo do Flappy Bird">
+    <meta name="keywords" content="Flappy Bird, Jogo, Divertido, Diversão, Passaro, Flappy, Bird">
 </head>
 
 <body>
-    <canvas id="stage" width="288" height="512"></canvas>
+    <canvas id="stage" width="288" height="512"></canvas> /* Define a largura e o tamanho da tela de fundo */
     <style>
         @font-face {
             font-family: "Flappy";
             src: url("flappy.ttf");
         }
     </style>
-    <div id="game_over">
+    <div id="game_over"> /*Cria a tela de game over*/
         <div>FIM DE JOGO</div>
         <br>
         <div>pts: <span id="pontos_detail">0</span></div>
@@ -28,19 +31,19 @@
         var stage = document.getElementById("stage");
         var ctx = stage.getContext("2d");
 
-        var bird = new Image();
+        var bird = new Image(); /*Cria variaveis que recebem uma imagem*/
         var bg = new Image();
         var fg = new Image();
         var pipeNorth = new Image();
         var pipeSouth = new Image();
 
-        bird.src = "bird.png";
+        bird.src = "bird.png"; /*Define as imagens das variaveis*/
         bg.src = "bg.png";
         fg.src = "fg.png";
         pipeNorth.src = "pipeNorth.png";
         pipeSouth.src = "pipeSouth.png";
 
-        var continua = true;
+        var continua = true; /*Cria algumas funções do jogo*/
         var gap = 85;
         var constant;
         var bX = 10;
@@ -49,7 +52,7 @@
         var gravity_backup = gravity;
         var score = 0;
 
-        var fly = new Audio();
+        var fly = new Audio(); /*Cria variaveis que recebem audio*/
         var scor = new Audio();
         fly.src = "fly.mp3";
         scor.src = "score.mp3";
@@ -57,7 +60,7 @@
         document.addEventListener("keydown", moveUp);
         document.getElementById("btn_again").addEventListener("click", play_again);
 
-        function moveUp() {
+        function moveUp() /*Cria a função de se mover para cima*/{
             if (!continua) {
                 return false;
             }
@@ -65,12 +68,12 @@
             gravity = -6.0;
             fly.play();
 
-            setTimeout(function () {
+            setTimeout(function () /*faz com que a gravidade receba backup da gravidade*/ {
                 gravity = gravity_backup;
             }, 80);
         }
 
-        function game_over() {
+        function game_over() /*Cria a função de fim de jogo*/ {
             continua = false;
             document.getElementById("pontos_detail").innerText = score;
             document.getElementById("game_over").style.display = "inline";
@@ -78,7 +81,7 @@
             centerGameOver();
         }
 
-        function play_again() {
+        function play_again() /*Cria função de jogar novamente*/ {
             continua = true;
             score = 0;
             gravity = gravity_backup;
@@ -100,10 +103,10 @@
             y: 0
         };
 
-        function draw() {
+        function draw() /*Desenha o background*/{
             ctx.drawImage(bg, 0, 0);
 
-            for (var i = 0; i < pipe.length; i++) {
+            for (var i = 0; i < pipe.length; i++) /*Faz com que os canos apareçam e se mexam*/{
                 constant = pipeNorth.height + gap;
                 ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
                 ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
@@ -146,13 +149,13 @@
             requestAnimationFrame(draw);
         }
 
-        function centerGameOver() {
+        function centerGameOver() /*Faz aparecer o game over*/{
             var gameOverElement = document.getElementById("game_over");
             gameOverElement.style.top = (window.innerHeight - gameOverElement.offsetHeight) / 2 + "px";
             gameOverElement.style.left = (window.innerWidth - gameOverElement.offsetWidth) / 2 + "px";
         }
 
-        window.onload = function () {
+        window.onload = function ()/*Carrega o game over*/ {
             centerGameOver();
             draw();
         };
